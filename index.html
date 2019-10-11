@@ -34,6 +34,14 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+		<style>
+			.container{
+			    display: flex;
+			}
+			.col{
+			    flex: 1;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -43,53 +51,52 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>HTML Presentations Made Easy</h3>
-					<p>
-					</p>
+					<h2>Implicit Data: Video Game Recommendations</h1>
+					<h3>Martin Boyanov</h3>
+					<h3>11.11 Dev.BG</h3>
 				</section>
 
-				<section>
-					<h2>Heads Up</h2>
-					<p>
-						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
-						support for CSS 3D transforms to see it in its full glory.
-					</p>
+				<section >
+					<h2>About me</h2>
+					<div class="container">
+					<div class="col">
+						<h3> Professional </h3>
+						<ul> 
+							<li> Machine Learning @ Smule
+							<li> Data Scientist @ Commetric 
+						    <li> Data Scientist @ Komfo
+						</ul>
+					</div>
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
+					<div class="col">
+						<h3> Academic </h3>
+						<ul>
+							<li>MSc @ Sofia University</li>
+							<li>BEng @ Edinburgh University</li>
+							<li>Competitions, Hackathons, Datathons</li>
+						</ul>
+					</div>
+					</div>
+
 				</section>
 
 				<!-- Example of nested vertical slides -->
 				<section>
+					<img src="" alt="amazon">
+					<img src="" alt="netflix">
+					<img src="" alt = "tinder">
+					<img src="" alt ="spotify">
+				</section>
+				<section>
 					<section>
-						<h2>Vertical Slides</h2>
-						<p>
-							Slides can be nested inside of other slides,
-							try pressing <a href="#" class="navigate-down">down</a>.
+						<h2>Implicit vs Explicit</h2>
+						<p class="fragment">
+							Explicit data is when users explicitly share their rating for a given item.
 						</p>
-						<a href="#" class="image navigate-down">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Press down or up to navigate.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>Cornify</p>
-						<a class="test" href="http://cornify.com">
-							<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 3</h2>
-						<p>That's it, time to go back up.</p>
-						<a href="#/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
+						<p class="fragment">
+							Implicit data is when we implicitly assume that a given action indicates preference - clicks, purchases, listents, etc.
+						</p>
+	
 					</section>
 				</section>
 
