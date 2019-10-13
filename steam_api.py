@@ -18,7 +18,11 @@ def crawl_user(steamid):
         'cache-control': "no-cache",
     }
     response = requests.request("GET", FRIENDS_URL, headers=headers, params=querystring)
-    return response.json()
+    try:
+        return response.json()
+    except JSONDecodeError as e:
+        print(response.text)
+        raise e
 
 
 def get_user_games(steamid):

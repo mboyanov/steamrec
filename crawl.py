@@ -17,7 +17,7 @@ def enqueue_friends(friends):
 if __name__ == '__main__':
     user = users.get_uncrawled_user()
     steps = 0
-    while user is not None and steps < 500000:
+    while user is not None and steps < 50000:
         logging.info(f"Starting crawl for {user} at step {steps}")
         steam_id = user['steam_id']
         friends = steam_api.crawl_user(steam_id)
@@ -38,3 +38,4 @@ if __name__ == '__main__':
         users.dequeue(steam_id)
         user = users.get_uncrawled_user()
         steps += 1
+        time.sleep(5)
