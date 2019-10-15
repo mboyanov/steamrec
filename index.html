@@ -107,7 +107,11 @@
 						Not a coder? No problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slid.es" target="_blank">http://slid.es</a>.
 					</p>
 				</section>
+                <section>
+                	$min \sum_{r_{u,i} is known}(r_{u,i} - x_u \cdot y_i)^2 + \lambda(||x_u||^2 + ||y_i||^2)$
 
+                	$min \sum_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + \lambda (\sum_u ||x_u||^2 + \sum_i ||y_i||^2)$
+                </section>
 				<section>
 					<h2>Point of View</h2>
 					<p>
@@ -177,6 +181,7 @@ Reveal.addEventListener( 'customevent', function() {
 
 				<section>
 					<section data-background="#007777">
+
 						<h2>Slide Backgrounds</h2>
 						<p>
 							Set <code>data-background="#007777"</code> on a slide to change the full page background to the given color. All CSS color formats are supported.
@@ -349,7 +354,8 @@ function linkify( selector ) {
 					{ src: 'bower_components/reveal-js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'bower_components/reveal-js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'bower_components/reveal-js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'bower_components/reveal-js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: 'bower_components/reveal-js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'bower_components/reveal-js/plugin/math/math.js', async: true }
 				]
 			});
 
