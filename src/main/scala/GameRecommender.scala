@@ -6,6 +6,9 @@ object GameRecommender extends App{
   val data = DataLoader.loadData(ratingsFile)
 
   val cachedRatings = data.getTrainRatings.rdd.cache()
-  ALS.trainImplicit(cachedRatings, 50, 10)
+  val model = ALS.trainImplicit(cachedRatings, 50, 10)
+  val ratings = ModelUtils.predict(data, model)
+  val mrr = Metrics.mrr(data, ratings)
+  print(s"MEAN RECIPROCAL RANK: $mrr")
 
 }
