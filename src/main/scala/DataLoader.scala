@@ -7,10 +7,6 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 import scala.collection.mutable
 
 
-
-
-
-
 case class Game(appid: BigInt, name: String, playtime_forever: BigInt)
 
 case class User(steam_id: String, games: List[Game], train_games: List[Game], valid_games: List[Game])
@@ -18,7 +14,9 @@ case class User(steam_id: String, games: List[Game], train_games: List[Game], va
 
 object DataLoader {
   val spark = SparkSessionFactory.get()
+
   import spark.implicits._
+
   def loadData(path: String, numPartitions: Int = 8): GameData = {
     new GameData(spark.read.json(path).repartition(numPartitions).as[User])
   }
@@ -40,17 +38,19 @@ object DataLoader {
     DataLoader.getMappings(data.flatMap(u => u.games.map(g => g.name)))
   }
 }
+
 @SerialVersionUID(100L)
 class GameData(data: Dataset[User]) extends Serializable {
-  val spark = SparkSessionFactory.get()
+  val spark: SparkSession = SparkSessionFactory.get()
+
   import spark.implicits._
 
+  val dataSet: Dataset[User] = data;
   val (id2user: Array[String], user2id: mutable.HashMap[String, Int]) = DataLoader.getUserMappings(data)
 
   val (id2game: Array[String], game2id: mutable.HashMap[String, Int]) = DataLoader.getGameMappings(data)
 
-
-
+  val id2User: Map[Int, User] = dataSet.groupByKey(u => user2id(u.steam_id)).reduceGroups((u1, u2) => u1).collect().toMap
 
   def getTrainRatings: Dataset[Rating] = {
     data.flatMap(u => {
