@@ -20,8 +20,7 @@ object Metrics {
     val spark = SparkSessionFactory.get()
     import spark.implicits._
     val rrs = ratings.groupByKey(r => r.user).mapGroups((uid, ratings) => rr(gameData.id2User(uid), ratings, gameData.id2game))
-    rrs.createOrReplaceTempView("df")
-    rrs.sqlContext.sql("select avg(value) as avg from df").head().getAs[Double]("avg")
+    rrs.collectAsList().stream().mapToDouble(x =>x).average().orElse(0)
   }
 
 }
