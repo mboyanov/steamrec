@@ -1,21 +1,16 @@
-import org.apache.spark.mllib.recommendation.{MatrixFactorizationModel, Rating}
-import org.apache.spark.sql.{DataFrame, Dataset}
-
-import scala.collection.mutable
+import org.apache.spark.ml.recommendation.ALSModel
+import org.apache.spark.ml.recommendation.ALS.Rating
+import org.apache.spark.sql.Dataset
 
 object ModelUtils {
-  def predict(gameData: GameData, model: MatrixFactorizationModel) : Dataset[Rating] = {
-    val numGames = gameData.game2id.size
-    val numUsers = gameData.user2id.size
+  def predict(gameData: GameData, model: ALSModel): Dataset[Rating[Int]] = {
+    val numGames = model.itemFactors.count().toInt
+    val numUsers = model.userFactors.count().toInt
     val spark = SparkSessionFactory.get()
     import spark.implicits._
-    val denseMatrix = new mutable.ArrayBuffer[(Int, Int)]
-    for (ng <- 0 to numGames;  nu <- 0 to numUsers) {
-      denseMatrix.append((ng, nu))
-    }
-    val gamesDS: Dataset[Int] = spark createDataset ((0 to numGames).toList)
-    val usersDs: Dataset[Int] = spark createDataset ((0 to numUsers).toList)
-    val denseDS: Dataset[(Int, Int)] = gamesDS.crossJoin(usersDs).as[(Int,Int)]
-    model.predict(denseDS.rdd).toDS()
+    val gamesDS: Dataset[Int] = spark createDataset ((0 until numGames).toList)
+    val usersDs: Dataset[Int] = spark createDataset ((0 until numUsers).toList)
+    val denseDS: Dataset[Rating[Int]] = usersDs.crossJoin(gamesDS).map(x=> Rating(x.getAs[Int](0), x.getAs[Int](1), 0.0f))
+    model.transform(denseDS).as
   }
 }

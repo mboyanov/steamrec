@@ -1,18 +1,16 @@
 import org.apache.spark.mllib.recommendation.ALS
+import org.slf4j.{Logger, LoggerFactory}
 
 
 
 
 object GameRecommender extends App{
-  val ratingsFile = "data_dir/train-test-split.json"
-  val data = DataLoader.loadData(ratingsFile)
-
-  val cachedRatings = data.getTrainRatings.rdd.cache()
-  val model = ALS.trainImplicit(cachedRatings, 50, 10)
-  model.userFeatures.repartition(1).saveAsTextFile("data_dir/user_features.txt")
-  model.productFeatures.repartition(1).saveAsTextFile("data_dir/game_features.txt")
-  val ratings = ModelUtils.predict(data, model)
-  val mrr = Metrics.mrr(data, ratings)
-  print(s"MEAN RECIPROCAL RANK: $mrr")
+  private lazy val logger: Logger = LoggerFactory.getLogger(GameRecommender.getClass)
+  val ratingsFile = "data_dir/train-test-split-v2.json"
+  val data = DataLoader.loadData(ratingsFile,8)
+  val ex = Experiment(10, 10, 0.01, 10)
+  val cachedRatings = data.getTrainRatings.cache()
+  logger.info("Ratings loaded, cached")
+  ExperimentRunner.runExperiment(ex, cachedRatings, data)
 
 }
