@@ -118,9 +118,89 @@
 					</ul>
 				</section>
                 <section>
-                	$min \sum_{r_{u,i} is known}(r_{u,i} - x_u \cdot y_i)^2 + \lambda(||x_u||^2 + ||y_i||^2)$
+                	<section>
+                	The goal of Matrix Factorization is to approximate the ratings or preference matrix by associating each user $u$ and item $i$ with a corresponding vector $x_u$ and $y_j$, s.t.:
 
-                	$min \sum_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + \lambda (\sum_u ||x_u||^2 + \sum_i ||y_i||^2)$
+
+                	<ul> 
+                		<li> For explicit data $ r_{i,j} \approx x_u \cdot y_j $  </li>
+                		<li> For implicit data $ p_{i,j} \approx x_u \cdot y_j$ with more emphasis on data with higher confidence</li>
+                	</ul>
+                	</section>
+                	<section>
+                	Explicit Objective: $$min \sum\limits_{r_{u,i} \in known}(r_{u,i} - x_u \cdot y_i)^2 + reg $$
+
+                	Implicit Objective: $$min \sum\limits_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + reg $$
+                	</section>
+                	<section>
+                	Explicit Objective: $min \sum\limits_{r_{u,i} \in known}(r_{u,i} - x_u \cdot y_i)^2 + \lambda(||x_u||^2 + ||y_i||^2)$
+
+                	Implicit Objective: $min \sum\limits_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + \lambda (\sum_u ||x_u||^2 + \sum_i ||y_i||^2)$
+                	</section>
+                </section>
+                <section>
+                	<section>
+                	Alternating Least Squares(ALS) is a technique where you alternate between freezing two sets of variables and iteratively finding the optimum for the "unfrozen" variables.    
+                	<br>
+
+                	Example. Let's minimize: 
+                	$$ (1-xy)^2 + \frac{1}{2} x^2 + \frac{1}{2} y^2$$
+                	</section>
+
+                	<section>
+                	Example. Let's minimize: 
+                	$$ (1-xy)^2 + \frac{1}{2} x^2 + \frac{1}{2} y^2$$
+                	<hr>
+                	Randomly, init y = 2. Need to minimize:	
+                	
+                	$$ (1-2x)^2 + \frac{1}{2} x^2 + \frac{1}{2} 2^2$$
+                	
+                	</section>
+                	<section>
+                		Randomly, init y = 2. Need to minimize:	
+                	
+                		$$ (1-2x)^2 + \frac{1}{2} x^2 + \frac{1}{2} 2^2$$
+						<hr>
+                		$$ \iff 4.5x^2 - 4x + 3 $$
+
+                		Minimum for x is at $ \frac{-b}{2a} = \frac{4}{9}$.
+
+                	</section>
+                	<section>
+                		$$ \iff 4.5x^2 - 4x + 3 $$
+
+                		Minimum for x is at $ \frac{-b}{2a} = \frac{4}{9}$.
+
+                		<hr>
+                		Now, set x = $\frac{4}{9}$ and solve for y.
+                		<br>
+                		$$ (1 - \frac{4}{9}y)^2 + \frac{1}{2}y^2 + \frac{1}{2}\frac{16}{81}$$
+                	</section>
+                	<section>
+                		Now, set x = $\frac{4}{9}$ and solve for y.
+                		<br>
+                		$$ (1 - \frac{4}{9}y)^2 + \frac{1}{2}y^2 + \frac{1}{2}\frac{16}{81}$$
+                		<hr>
+                		Minimum is at y=$\frac{72}{113}$. Set y, solve for x.
+                		$$ (1 - \frac{72}{113}x)^2 + \frac{1}{2}x^2 + \frac{1}{2}\frac{72}{113}^2$$
+                		
+                	</section>
+                	<section>
+                		Minimum is at y=$\frac{72}{113}$. Set y, solve for x.
+                		$$ (1 - \frac{72}{113}x)^2 + \frac{1}{2}x^2 + \frac{1}{2}\frac{72}{113}^2$$
+                		<hr>
+
+                		Minimum is at x=$\frac{16272}{23137} \approx 0.7$. Set x, solve for y.
+                		$$\dots$$
+
+                		Repeat for a predefined number of iterations or until convergence.
+
+                	</section>
+                </section>
+                <section >
+                	<h2> Interpretability </h2>
+                	$$ p_{u,i} = \sum\limits_{r_{u,i} > 0} s_{i,j}^uc_{u,j}$$
+
                 </section>
 				<section>
 					<h2>Point of View</h2>
