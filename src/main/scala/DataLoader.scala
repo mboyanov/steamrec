@@ -20,7 +20,7 @@ object DataLoader {
   import spark.implicits._
 
   def loadData(path: String, numPartitions: Int = 8): GameData = {
-    new GameData(spark.read.json(path).repartition(numPartitions).as[User])
+    new GameData(spark.read.json(path).as[User])
   }
 
 }
@@ -31,23 +31,24 @@ class GameData(data: Dataset[User]) extends Serializable {
 
   import spark.implicits._
 
-  val dataSet: Dataset[User] = data;
+  val dataSet: Dataset[User] = data.cache();
 
 
-  val id2User = data.map(u => (u.user_id.toInt, u)).collect().toMap
+  val id2User = dataSet.map(u => (u.user_id.toInt, u)).collect().toMap
+
   def getTrainRatings: Dataset[Rating[Int]] = {
-    data.flatMap(u => {
+    dataSet.flatMap(u => {
       u.train_games.map(g => toRating(u, g))
     })
   }
 
   def getValidRatings: Dataset[Rating[Int]] = {
-    data.flatMap(u => {
+    dataSet.flatMap(u => {
       u.valid_games.map(g => toRating(u, g))
     })
   }
 
   private def toRating(u: User, g: Game): Rating[Int] = {
-    Rating(u.user_id.toInt, g.game_id.toInt, g.playtime_forever.toFloat / 60)
+    Rating(u.user_id.toInt, g.game_id.toInt, (g.playtime_forever.toFloat + 1) / 60 )
   }
 }

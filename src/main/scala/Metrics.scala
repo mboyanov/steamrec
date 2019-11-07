@@ -1,8 +1,14 @@
 import org.apache.spark.ml.recommendation.ALS.Rating
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions._
 
+import scala.collection.mutable
+
 object Metrics {
+
+
+  case class RatingItem(item: Int, rating: Float)
+  case class GroupedRating(user: Int, recommendations: Array[RatingItem])
 
   def rr(user: User, ratings: Iterator[Rating[Int]]): Double = {
     val trainGames = user.train_games.map(g => g.game_id).toSet
@@ -17,10 +23,20 @@ object Metrics {
 
   }
 
-  def mrr(gameData: GameData, ratings: Dataset[Rating[Int]]): Double = {
+  def mapItem(uid:Int, ratingItem:Row): Rating[Int] = {
+    Rating(uid, ratingItem.getAs[Int]("item"), ratingItem.getAs[Float]("rating"))
+  }
+
+  def row2ratings(row: Row): Iterator[Rating[Int]] = {
+    val uid = row.getAs[Int](0)
+    row.getAs[mutable.WrappedArray[Row]]("recommendations")
+      .map(x => mapItem(uid, x)).toIterator
+  }
+
+  def mrr(gameData: GameData, ratings: DataFrame): Double = {
     val spark = SparkSessionFactory.get()
     import spark.implicits._
-    val rrs: Dataset[Double] = ratings.groupByKey(r => r.user).mapGroups((uid, ratings) => rr(gameData.id2User(uid), ratings))
+    val rrs: Dataset[Double] = ratings.map(r => rr(gameData.id2User(r.getAs("user")), row2ratings(r)))
     rrs.select(avg(rrs.columns(0))).head().getDouble(0)
   }
 
