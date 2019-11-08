@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkSessionFactory {
   def get():SparkSession = {
-    val sess = SparkSession.builder.appName("GameRec").master("local[2]").getOrCreate()
+    val sess = SparkSession.builder.appName("GameRec").master("local[*]").getOrCreate()
     sess.conf.set("spark.executor.memory", "3g")
     sess
   }
