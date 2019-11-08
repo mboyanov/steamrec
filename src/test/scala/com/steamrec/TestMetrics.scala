@@ -1,5 +1,6 @@
-import Metrics.{GroupedRating, RatingItem}
-import org.apache.spark.ml.recommendation.ALS.Rating
+package com.steamrec
+
+import com.steamrec.Metrics.{GroupedRating, RatingItem}
 import org.scalatest.{FlatSpec, Matchers}
 
 

@@ -1,3 +1,5 @@
+package com.steamrec
+
 import org.apache.spark.sql.SparkSession
 
 object SparkSessionFactory {

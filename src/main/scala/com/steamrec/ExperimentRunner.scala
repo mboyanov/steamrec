@@ -1,17 +1,10 @@
+package com.steamrec
+
 import java.nio.file.{Files, Paths}
 
 import org.apache.spark.ml.recommendation.ALS
 import org.apache.spark.ml.recommendation.ALS.Rating
 import org.apache.spark.sql.Dataset
-
-case class Experiment(rank: Int,
-                      iterations: Int,
-                      lambda: Double,
-                      alpha: Double) {
-  def getOutputDir: String = {
-    s"rank_${rank}_it_${iterations}_lambda_${lambda}_alpha_${alpha}"
-  }
-}
 
 object ExperimentRunner {
 

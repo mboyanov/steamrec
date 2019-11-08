@@ -1,6 +1,8 @@
+package com.steamrec
+
 import org.apache.spark.ml.recommendation.ALS.Rating
+import org.apache.spark.sql.functions.avg
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.apache.spark.sql.functions._
 
 import scala.collection.mutable
 
@@ -36,7 +38,7 @@ object Metrics {
   def mrr(gameData: GameData, ratings: DataFrame): Double = {
     val spark = SparkSessionFactory.get()
     import spark.implicits._
-    val rrs: Dataset[Double] = ratings.map(r => rr(gameData.id2User(r.getAs("user")), row2ratings(r)))
+    val rrs: Dataset[Double] = ratings.map(r => rr(gameData.id2User.value(r.getAs("user")), row2ratings(r)))
     rrs.select(avg(rrs.columns(0))).head().getDouble(0)
   }
 

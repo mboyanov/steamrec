@@ -1,5 +1,7 @@
-import org.apache.spark.ml.recommendation.ALSModel
+package com.steamrec
+
 import org.apache.spark.ml.recommendation.ALS.Rating
+import org.apache.spark.ml.recommendation.ALSModel
 import org.apache.spark.sql.Dataset
 
 object ModelUtils {

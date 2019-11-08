@@ -1,6 +1,7 @@
+package com.steamrec
 
 
-import org.apache.spark.ml.recommendation.ALSModel
+
 import org.apache.spark.sql.Dataset
 import org.scalatest.{FlatSpec, Matchers}
 
