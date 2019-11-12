@@ -14,9 +14,9 @@ class GameData(data: Dataset[User]) extends Serializable {
 
   val id2User = spark.sparkContext.broadcast(dataSet.map(u => (u.user_id.toInt, u)).collect().toMap)
 
-  def getTrainRatings: Dataset[Rating[Int]] = {
+  def getTrainRatings(log_smoothing:Boolean = false): Dataset[Rating[Int]] = {
     dataSet.flatMap(u => {
-      u.train_games.map(g => toRating(u, g))
+      u.train_games.map(g => toRating(u, g, log_smoothing))
     })
   }
 
@@ -26,7 +26,14 @@ class GameData(data: Dataset[User]) extends Serializable {
     })
   }
 
-  private def toRating(u: User, g: Game): Rating[Int] = {
+  private def toRating(u: User, g: Game, log_smoothing:Boolean=false): Rating[Int] = {
+    if (log_smoothing) {
+      Rating(u.user_id.toInt, g.game_id.toInt, (g.playtime_forever.toFloat + 1) / 60 )
+
+    } else {
+      Rating(u.user_id.toInt, g.game_id.toInt, Math.log((g.playtime_forever.toFloat + 1) / 60 ).toFloat)
+
+    }
     Rating(u.user_id.toInt, g.game_id.toInt, (g.playtime_forever.toFloat + 1) / 60 )
   }
 }

@@ -3,8 +3,14 @@ package com.steamrec
 case class Experiment(rank: Int,
                       iterations: Int,
                       lambda: Double,
-                      alpha: Double) {
+                      alpha: Double,
+                      log_smoothing:Boolean) {
   def getOutputDir: String = {
-    s"rank_${rank}_it_${iterations}_lambda_${lambda}_alpha_${alpha}"
+    val dir = s"rank_${rank}_it_${iterations}_lambda_${lambda}_alpha_${alpha}"
+    if (log_smoothing) {
+      dir.concat(s"_log_smoothing")
+    } else {
+      dir
+    }
   }
 }

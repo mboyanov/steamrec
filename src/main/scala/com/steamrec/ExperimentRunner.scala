@@ -21,7 +21,6 @@ object ExperimentRunner {
     val model = als.fit(cachedRatings)
     model.write.overwrite().save(Paths.get("data_dir", experiment.getOutputDir, "model").toFile.toString)
     val ratings = model.recommendForAllUsers(100)
-
     val mrr = Metrics.mrr(data, ratings)
     Files.write(Paths.get("data_dir", experiment.getOutputDir, "mrr.txt"), mrr.toString.getBytes)
     print(s"MEAN RECIPROCAL RANK: $mrr")
