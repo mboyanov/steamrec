@@ -55,7 +55,13 @@
 					<h3>Martin Boyanov</h3>
 					<h3>11.11 Dev.BG</h3>
 				</section>
-
+				<section>
+					<h2>Agenda</h2>
+					<ol>
+						<li class="">Distill  <A href="http://yifanhu.net/PUB/cf.pdf"><i >Collaborative Filtering for Implicit Feedback Datasets</i></A> by AT&T Labs</li>
+						<li class="fragment">Apply what we learned on Steam data</li>
+					</ol>
+				</section>
 				<section >
 					<h2>About me</h2>
 					<div class="container">
@@ -79,14 +85,7 @@
 					</div>
 
 				</section>
-				<section>
-					<h2>Agenda</h2>
-					<ol>
-						<li class="">Distill  <A href="http://yifanhu.net/PUB/cf.pdf"><i >Collaborative Filtering for Implicit Feedback Datasets</i></A> by AT&T Labs</li>
-						<li class="fragment">Apply what we learned on Steam data</li>
-					</ol>
-					
-				</section>
+
 				<!-- Example of nested vertical slides -->
 				<section>
 					<h3> What is a recommender system? </h3>
@@ -113,16 +112,22 @@
 					<ul>
 						<li> Action might not indicate preference, e.g. Buying a present for someone else </li>
 						<li> Channel flipping </li>
-						<li> Spotify/ Youtube drift - go to sleep </li>
+						<li> Spotify / Youtube drift, e.g. go to sleep </li>
 						<li> No negative data </li>
 					</ul>
 				</section>
 				<section>
-					Data Demo - EDA, Ratings Matrix, Preference Matrix, Confidence Matrix
+					<h2> Data Demo </h2>
+					<ul>
+						<li> EDA </li>
+						<li> Playtime Matrix </li>
+						<li> Preference Matrix, Confidence Matrix
+					</ul>
 				</section>
                 <section>
                 	<section>
-                	The goal of Matrix Factorization is to approximate the ratings or preference matrix by associating each user $u$ and item $i$ with a corresponding vector $x_u$ and $y_j$, s.t.:
+                	<h2>Matrix Factorization</h2>
+                	Approximate the ratings or preference matrix by associating each user $u$ and item $i$ with a corresponding vector $x_u$ and $y_j$, s.t.:
 
 
                 	<ul> 
@@ -132,18 +137,19 @@
                 	</section>
                 	<section>
                 	Explicit Objective: $$min \sum\limits_{r_{u,i} \in known}(r_{u,i} - x_u \cdot y_i)^2 + reg $$
-
+<hr>
                 	Implicit Objective: $$min \sum\limits_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + reg $$
                 	</section>
                 	<section>
-                	Explicit Objective: $min \sum\limits_{r_{u,i} \in known}(r_{u,i} - x_u \cdot y_i)^2 + \lambda(||x_u||^2 + ||y_i||^2)$
-
-                	Implicit Objective: $min \sum\limits_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + \lambda (\sum_u ||x_u||^2 + \sum_i ||y_i||^2)$
+                	Explicit Objective: $$min \sum\limits_{r_{u,i} \in known}(r_{u,i} - x_u \cdot y_i)^2 + \lambda(||x_u||^2 + ||y_i||^2)$$
+<hr>
+                	Implicit Objective: $$min \sum\limits_{u,i} c_{u,i}(p_{u,i} - x_u \cdot y_i)^2 + \lambda (\sum_u ||x_u||^2 + \sum_i ||y_i||^2)$$
                 	</section>
                 </section>
                 <section>
                 	<section>
-                	Alternating Least Squares(ALS) is a technique where you alternate between freezing two sets of variables and iteratively finding the optimum for the "unfrozen" variables.    
+                	<h2> ALS </h2>
+                	Alternating Least Squares is a technique where you alternate between freezing two sets of variables and iteratively finding the optimum for the "unfrozen" variables.    
                 	<br>
 
                 	Example. Let's minimize: 
@@ -180,6 +186,7 @@
                 		$$ (1 - \frac{4}{9}y)^2 + \frac{1}{2}y^2 + \frac{1}{2}\frac{16}{81}$$
                 	</section>
                 	<section>
+n>
                 		Now, set x = $\frac{4}{9}$ and solve for y.
                 		<br>
                 		$$ (1 - \frac{4}{9}y)^2 + \frac{1}{2}y^2 + \frac{1}{2}\frac{16}{81}$$
@@ -197,7 +204,8 @@
                 		$$\dots$$
 
                 		Repeat for a predefined number of iterations or until convergence.
-
+                		<hr>
+                		In our case the optimum is at (0.707, 0.707), so we are pretty 
                 	</section>
                 	<section>
                 		For our formula, the principle is the same but instead of $\frac{-b}{2a}$, the minumum is at
@@ -220,14 +228,39 @@
 
                 </section>
                 <section>
-                	<h2> Results Demo </h2>
+                	<h2> Results & Analysis </h2>
+                	<ul>
+                		<li>Spark code</li>
+                		<li>Best model(Results Analysis)</li>
+                		<li>Examine Model</li>
+                		<li>Tensorboard Demo</li>
+                	</ul>
                 </section>
                 <section >
                 	<h2> Interpretability </h2>
                 	$$ p_{u,i} = \sum\limits_{r_{u,i} > 0} s_{i,j}^uc_{u,j}$$
 
                 </section>
-				
+                <section >
+                	<h2> Other Aspects </h2>
+                	<p class="fragment">Temporal - maybe recent items should have more weight? Maybe seasonality has an impact?</p>
+                	<p class="fragment">Diversity - it's good to recommend different kinds of games, e.g. not all action or not all versions of Football Manager</p>
+                	<p class="fragment">Ethical - should we recommend conspiracy theories? Fake news? Gory games to minors? </p>
+                </section>
+				<section>
+					<h2> Summary </h2>
+					<ul>
+						<li>Implicit data - we only assume the user likes the item</li>
+						<li>We can decompose the playtime matrix into a preference & a confidence matrices </li>
+						<li>Alternating least squares is an iterative procedure for optimising non-convex functions</li>
+						
+					</ul>
+				</section>
+				<section>
+					<h2> Следващо събитие </h2>
+					<p>  Клъстъринг методи за дългосрочни инвестиционни стратегии</p>
+					<p> Димитър Христосков и Тодор Биларев </p>
+				</section>
 				<section id="themes">
 					<h2>Themes</h2>
 					<p>
