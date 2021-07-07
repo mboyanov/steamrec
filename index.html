@@ -14,11 +14,11 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/beige.css" id ="theme">
+		<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="reveal.js/dist/theme/beige.css" id ="theme">
 
 		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/zenburn.css">
+		<link rel="stylesheet" href="reveal.js/plugin/highlight/zenburn.css">
 
 		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
 		<script>
@@ -26,7 +26,7 @@
 				var link = document.createElement( 'link' );
 				link.rel = 'stylesheet';
 				link.type = 'text/css';
-				link.href = 'node_modules/reveal.js/css/print/pdf.css';
+				link.href = 'reveal.js/css/print/pdf.css';
 				document.getElementsByTagName( 'head' )[0].appendChild( link );
 			}
 		</script>
@@ -288,7 +288,7 @@ n>
 
 		</div>
 
-		<script src="node_modules/reveal.js/dist/reveal.js"></script>
+		<script src="reveal.js/dist/reveal.js"></script>
 
 		<script>
 
@@ -300,8 +300,8 @@ n>
 				history: true,
 				center: true,
 
-				theme: "beige", // available themes are in /css/theme
-				transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -309,11 +309,11 @@ n>
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
-					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'node_modules/reveal.js/plugin/zoom/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'node_modules/reveal.js/plugin/math/math.js', async: true }
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/math/math.js', async: true }
 				]
 			});
 
